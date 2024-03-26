@@ -1,0 +1,21 @@
+{
+    "chain_name": "cvm",
+    "coingecko": "",
+    "api": ["https://api.cosvm.net"],
+    "rpc": ["https://rpc.cosvm.net"],
+    "snapshot_provider": "",
+    "sdk_version": "0.46.10",
+    "coin_type": "60",
+    "min_tx_fee": "3000000000000000",
+    "addr_prefix": "cvm",
+    "logo": "https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/cvm_323/chain.png",
+    "keplr_features": ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
+    "assets": [{
+        "base": "ucvm",
+        "symbol": "cvm",
+        "exponent": "18",
+        "coingecko_id": "", 
+        "logo": "https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/cvm_323/chain.png"
+    }]
+    
+}
