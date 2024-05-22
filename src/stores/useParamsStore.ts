@@ -191,17 +191,28 @@ export const useParamStore = defineStore('paramstore', {
         }));
       });
     },
-    async handleAbciInfo() {
-      const res = await this.fetchAbciInfo();
-
-      localStorage.setItem(`sdk_version_${this.blockchain.chainName}`, res.application_version?.cosmos_sdk_version);
-      
-      this.appVersion.items = Object.entries(res.application_version).map(
-        ([key, value]) => ({ subtitle: key, value: value })
-      );
-      this.nodeVersion.items = Object.entries(res.default_node_info).map(
-        ([key, value]) => ({ subtitle: key, value: value })
-      );
+   async handleAbciInfo() {
+      try {
+        const res = await this.fetchAbciInfo();
+    
+        localStorage.setItem(`sdk_version_${this.blockchain.chainName}`, res.application_version?.cosmos_sdk_version);
+        
+        // Map over application_version entries and set default value for name attribute
+        this.appVersion.items = Object.entries(res.application_version).map(([key, value]) => ({ subtitle: key, value: value }));
+        
+        // Find the index of the 'name' attribute in appVersion.items
+        const nameIndex = this.appVersion.items.findIndex(item => item.subtitle === 'name');
+        
+        // If 'name' attribute exists and its value is 'evmos', replace it with 'cvm'
+        if (nameIndex !== -1 && this.appVersion.items[nameIndex].value === 'evmos') {
+          this.appVersion.items[nameIndex].value = 'cvm';
+        }
+    
+        this.nodeVersion.items = Object.entries(res.default_node_info).map(([key, value]) => ({ subtitle: key, value: value }));
+      } catch (error) {
+        console.error('Error handling ABCI info:', error);
+        // Handle error
+      }
     },
     async getBaseTendermintBlockLatest() {
       return await this.blockchain.rpc?.getBaseBlockLatest();
